@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Assets\Benchmarks;
+namespace Tests\Fakes;
 
 /**
  * Builds image files that are cheap to generate but shaped like real uploads:
  * a valid header, optional metadata in front of the dimensions, and a large body.
  */
-class Fixtures
+class ImageFixtures
 {
     /**
      * @param  int  $size  Total size of the file in bytes.
