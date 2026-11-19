@@ -13,6 +13,7 @@ use Statamic\Facades\Stache;
 use Statamic\Facades\YAML;
 use Statamic\Search\InsertMultipleJob;
 use Tests\Fakes\CountingFilesystemAdapter;
+use Tests\Fakes\ImageFixtures;
 use Tests\PreventSavingStacheItemsToDisk;
 use Tests\TestCase;
 
@@ -108,7 +109,7 @@ class AssetMetaBenchmark extends TestCase
     public function reading_null_meta_values()
     {
         // getID3 cannot make sense of this, so its width, height and duration are all null.
-        $this->adapter->seed('broken.mp4', Fixtures::junk(self::FILE_SIZE));
+        $this->adapter->seed('broken.mp4', ImageFixtures::junk(self::FILE_SIZE));
 
         $asset = $this->container->makeAsset('broken.mp4');
         $asset->meta();
@@ -195,26 +196,26 @@ class AssetMetaBenchmark extends TestCase
         $size = self::FILE_SIZE;
 
         foreach (range(1, 10) as $i) {
-            $this->addImage("photos/plain-{$i}.jpg", Fixtures::jpeg(800, 600, $size), 800, 600);
+            $this->addImage("photos/plain-{$i}.jpg", ImageFixtures::jpeg(800, 600, $size), 800, 600);
         }
 
         // Dimensions are swapped by the EXIF orientation.
-        $this->addImage('photos/rotated.jpg', Fixtures::jpeg(800, 600, $size, orientation: 6), 600, 800);
+        $this->addImage('photos/rotated.jpg', ImageFixtures::jpeg(800, 600, $size, orientation: 6), 600, 800);
 
         // Cameras and editors put thumbnails and color profiles ahead of the dimensions.
-        $this->addImage('photos/thumbnail.jpg', Fixtures::jpeg(800, 600, $size, headerPadding: 40 * 1024), 800, 600);
-        $this->addImage('photos/profile.jpg', Fixtures::jpeg(800, 600, $size, orientation: 6, headerPadding: 300 * 1024), 600, 800);
+        $this->addImage('photos/thumbnail.jpg', ImageFixtures::jpeg(800, 600, $size, headerPadding: 40 * 1024), 800, 600);
+        $this->addImage('photos/profile.jpg', ImageFixtures::jpeg(800, 600, $size, orientation: 6, headerPadding: 300 * 1024), 600, 800);
 
         foreach (range(1, 3) as $i) {
-            $this->addImage("graphics/image-{$i}.png", Fixtures::png(640, 480, $size), 640, 480);
+            $this->addImage("graphics/image-{$i}.png", ImageFixtures::png(640, 480, $size), 640, 480);
         }
 
         foreach (range(1, 2) as $i) {
-            $this->addImage("graphics/image-{$i}.webp", Fixtures::webp(320, 240, $size), 320, 240);
-            $this->addImage("graphics/image-{$i}.gif", Fixtures::gif(200, 100, $size), 200, 100);
+            $this->addImage("graphics/image-{$i}.webp", ImageFixtures::webp(320, 240, $size), 320, 240);
+            $this->addImage("graphics/image-{$i}.gif", ImageFixtures::gif(200, 100, $size), 200, 100);
         }
 
-        $this->adapter->seed('document.pdf', Fixtures::junk($size));
+        $this->adapter->seed('document.pdf', ImageFixtures::junk($size));
     }
 
     private function addImage(string $path, string $contents, int $width, int $height): void
